@@ -16,7 +16,7 @@ MyTaskApp is a simple task management application developed for Android using Ja
 - Mark Task as Completed: Tap the "Mark as Completed" button to mark a task as completed.
 - Settings: Tap the "Settings" button to customize app settings.
 
-## Contributing
+## Contributions
 1. Sandra Akubah Darko - Project Manager & UI/UX Designer
 2. Ivy Owusu - UI/UX Designer & Programmer
 3. Abigail Edem Adjo Hayibor - UI/UX Designer & Programmer
