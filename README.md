@@ -17,15 +17,15 @@ MyTaskApp is a simple task management application developed for Android using Ja
 - Settings: Tap the "Settings" button to customize app settings.
 
 ## Contributions
-1. Sandra Akubah Darko - Project Manager & UI/UX Designer
-2. Ivy Owusu - UI/UX Designer & Programmer
-3. Abigail Edem Adjo Hayibor - UI/UX Designer & Programmer
-4. Nana Kojo Addo Baffour - Programmer
-5. Alvin Kwame Achaempong Bernasko - Programmer
-6. Dennis Kobla Agbanyo - Programmer
-7. David Essel Agyekum - Programmer
-8. Zowonu Elikplim Kwame - Programmer
-9. Maxwell Awoonor-Williams - Programmer
-10. Augustine Kpakpo Brown - Programmer
+1. Sandra Akubah Darko 10945445 - Project Manager & Programmer (screen 1 )
+2. Ivy Owusu 10985154 -  Programmer (screen 1 )
+3. Abigail Edem Adjo Hayibor 10976187 -  Programmer  (screen 2 )
+4. Nana Kojo Addo Baffour 10964351 - Programmer  (screen 2)
+5. Alvin Kwame Achaempong Bernasko  10966395 - Programmer  (screen 3 )
+6. Dennis Kobla Agbanyo 10975201 - Programmer  (screen 3)
+7. David Essel Agyekum 10954098- Programmer  (screen 4 )
+8. Zowonu Elikplim Kwame 10964521 - Programmer  (screen 4 )
+9. Maxwell Awoonor-Williams 10984969 - Programmer  (screen 5)
+10. Augustine Kpakpo Brown 10973795 - Programmer  (screen 5 )
 
 
