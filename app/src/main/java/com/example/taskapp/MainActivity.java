@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<String> taskList = new ArrayList<>();
 
     private static final int ADD_TASK_REQUEST_CODE = 1;
+    private static final int SETTINGS_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -73,27 +75,28 @@ public class MainActivity extends AppCompatActivity {
         taskListView = findViewById(R.id.taskListView);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
         taskListView.setAdapter(adapter);
+
+        // Clear the list and reload tasks only if dark/light mode is changed
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("shouldClearTasks")) {
+            boolean shouldClearTasks = intent.getBooleanExtra("shouldClearTasks", false);
+            if (shouldClearTasks) {
+                taskList.clear();
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
+
+
     private void openAddTaskScreen() {
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
         startActivityForResult(intent, ADD_TASK_REQUEST_CODE);
     }
 
-    private void openTaskDetailsScreen(int position) {
-        String task = taskList.get(position);
-        Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
-        intent.putExtra("task", task);
-        startActivity(intent);
-    }
-
     private void openSettingsScreen() {
-        try {
-
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
-        } catch (ActivityNotFoundException err) {
-            System.out.println(err);
-        }
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivityForResult(intent, SETTINGS_REQUEST_CODE);
     }
 
     private void markTaskAsCompleted() {
@@ -117,6 +120,12 @@ public class MainActivity extends AppCompatActivity {
             String newTask = data.getStringExtra("newTask");
             taskList.add(newTask);
             adapter.notifyDataSetChanged();
+        } else if (requestCode == SETTINGS_REQUEST_CODE && resultCode == RESULT_OK) {
+            boolean shouldClearTasks = data.getBooleanExtra("shouldClearTasks", false);
+            if (shouldClearTasks) {
+                taskList.clear();
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }

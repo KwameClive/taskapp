@@ -31,16 +31,16 @@
         android:layout_marginStart="16dp">
 
         <RadioButton
-            android:id="@+id/lightThemeRadioButton"
+            android:id="@+id/darkModeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Light Theme" />
+            android:text="Dark Mode"  />
 
         <RadioButton
-            android:id="@+id/darkThemeRadioButton"
+            android:id="@+id/lightModeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dark Theme" />
+            android:text="Light Mode" />
 
     </RadioGroup>
 

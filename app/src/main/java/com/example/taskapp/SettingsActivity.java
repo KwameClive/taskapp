@@ -1,48 +1,72 @@
 package com.example.taskapp;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private Button darkModeButton;
+    private Button lightModeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        darkModeButton = findViewById(R.id.darkModeButton);
+        lightModeButton = findViewById(R.id.lightModeButton);
+
+        darkModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveSettings();
+                setDarkMode();
             }
         });
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button cancelButton = findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        lightModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelSettings();
+                setLightMode();
             }
         });
     }
 
-    private void saveSettings() {
+    private void setDarkMode() {
+        // Save the selected mode preference
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit().putString("selected_mode", "dark").apply();
+
+        // Apply dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        recreate();
+    }
+
+    private void setLightMode() {
+        // Save the selected mode preference
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit().putString("selected_mode", "light").apply();
+
+        // Apply light mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        recreate();
+    }
+    private void saveSettings(boolean shouldClearTasks) {
         // Save the settings and perform any necessary operations
 
-        Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit().putString("selected_mode", "dark").apply();
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("shouldClearTasks", shouldClearTasks);
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 
-    private void cancelSettings() {
-        // Discard the changes and perform any necessary operations
 
-        Toast.makeText(this, "Changes discarded", Toast.LENGTH_SHORT).show();
-        finish();
-    }
 }
