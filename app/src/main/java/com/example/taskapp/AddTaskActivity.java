@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,9 +37,12 @@ public class AddTaskActivity extends AppCompatActivity {
 
         // Perform any necessary operations with the title and description here
         MainActivity.taskList.add(title);
-        // Finish the activity
-        System.out.println(MainActivity.taskList);
-        finish();
 
+        // Display a toast message
+        Toast.makeText(AddTaskActivity.this, "Task added: " + title, Toast.LENGTH_SHORT).show();
+
+        // Finish the activity
+        finish();
     }
+
 }

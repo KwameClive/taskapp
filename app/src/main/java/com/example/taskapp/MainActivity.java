@@ -8,10 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,21 +32,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        taskList.add("Task 1");
-        taskList.add("Task 2");
-        taskList.add("Task 3");
-
         taskListView = findViewById(R.id.taskListView);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
-        taskListView.setAdapter(adapter);
+
+        // Check if the taskList is empty before adding tasks
+        if (taskList.isEmpty()) {
+            taskList.add("Task 1");
+            taskList.add("Task 2");
+            taskList.add("Task 3");
+        }
 
         taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                openTaskDetailsScreen(position);
                 System.out.println("Task list clicked");
+                String name = taskList.get(position);
+                makeToast(name);
             }
         });
+
+        taskListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                makeToast("Removed: " + taskList.get(position));
+                removeItem(position);
+                return true; // Return true to consume the long-click event
+            }
+        });
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
+        taskListView.setAdapter(adapter);
 
         Button addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -67,27 +86,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void openTaskDetailsScreen(int position) {
+        String task = taskList.get(position);
+        Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
+        intent.putExtra("task", task);
+        startActivity(intent);
+    }
+
+
+    public void removeItem(int position) {
+        String removedTask = taskList.get(position);
+        taskList.remove(position);
+        adapter.notifyDataSetChanged();
+
+        makeToast("Removed: " + removedTask);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
         // Reload or update the variables here
-        taskListView = findViewById(R.id.taskListView);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
-        taskListView.setAdapter(adapter);
-
-        // Clear the list and reload tasks only if dark/light mode is changed
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("shouldClearTasks")) {
-            boolean shouldClearTasks = intent.getBooleanExtra("shouldClearTasks", false);
-            if (shouldClearTasks) {
-                taskList.clear();
-            }
-        }
-
         adapter.notifyDataSetChanged();
     }
-
 
     private void openAddTaskScreen() {
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
@@ -127,5 +149,14 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+
+    Toast t;
+
+    public void makeToast(String s) {
+        if (t != null) t.cancel();
+        t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t.show();
     }
 }
