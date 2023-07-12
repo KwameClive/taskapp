@@ -1,6 +1,5 @@
 package com.example.taskapp;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,21 +27,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        taskList.add("Task 1");
-        taskList.add("Task 2");
-        taskList.add("Task 3");
-
         taskListView = findViewById(R.id.taskListView);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
-        taskListView.setAdapter(adapter);
 
+        // Check if the taskList is empty before adding tasks
+        if (taskList.isEmpty()) {
+            taskList.add("Task 1");
+            taskList.add("Task 2");
+            taskList.add("Task 3");
+        }
         taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            private long lastClickTime = 0;
+            private static final long DOUBLE_CLICK_TIME_DELTA = 300; // Maximum duration between two clicks to be considered as a double-click
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                openTaskDetailsScreen(position);
-                System.out.println("Task list clicked");
+                long clickTime = System.currentTimeMillis();
+                if (clickTime - lastClickTime <= DOUBLE_CLICK_TIME_DELTA) {
+                    // Double-click detected
+                    markTaskAsCompleted(); // Pass the position to the method
+                }
+                lastClickTime = clickTime;
             }
         });
+
+
+        taskListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                makeToast("Removed: " + taskList.get(position));
+                removeItem(position);
+                return true; // Return true to consume the long-click event
+            }
+        });
+
+
+
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
+        taskListView.setAdapter(adapter);
 
         Button addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -66,28 +89,42 @@ public class MainActivity extends AppCompatActivity {
                 markTaskAsCompleted();
             }
         });
+
+        Button viewTaskDetailsButton = findViewById(R.id.viewTaskDetailsButton);
+        viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the position of the clicked item
+                int position = taskListView.getPositionForView(v);
+                openTaskDetailsScreen(position);
+            }
+        });
+
+
     }
+
+    private void openTaskDetailsScreen(int position) {
+        Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
+        startActivity(intent);
+    }
+
+
+
+    public void removeItem(int position) {
+        String removedTask = taskList.get(position);
+        taskList.remove(position);
+        adapter.notifyDataSetChanged();
+
+        makeToast("Removed: " + removedTask);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
         // Reload or update the variables here
-        taskListView = findViewById(R.id.taskListView);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
-        taskListView.setAdapter(adapter);
-
-        // Clear the list and reload tasks only if dark/light mode is changed
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("shouldClearTasks")) {
-            boolean shouldClearTasks = intent.getBooleanExtra("shouldClearTasks", false);
-            if (shouldClearTasks) {
-                taskList.clear();
-            }
-        }
-
         adapter.notifyDataSetChanged();
     }
-
 
     private void openAddTaskScreen() {
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
@@ -100,17 +137,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void markTaskAsCompleted() {
-        // Get the selected task
-        int position = taskListView.getCheckedItemPosition();
-        if (position != ListView.INVALID_POSITION) {
+        int position = 0;
+        if (position >= 0 && position < taskList.size()) {
             String completedTask = taskList.get(position);
-            // Perform any necessary operations with the completed task
+            String completedTaskDescription = "Description of completed task"; // Replace with the actual description
 
-            // Remove the completed task from the list
             taskList.remove(position);
             adapter.notifyDataSetChanged();
+
+            // Add the completed task to the completed tasks list
+            // Code for adding the task to the completed tasks list goes here
+
+            // Open the "Marked as Completed" screen and pass the task information
+            Intent intent = new Intent(MainActivity.this, CompletedTasksActivity.class);
+            intent.putExtra("completedTask", completedTask);
+            intent.putExtra("completedTaskDescription", completedTaskDescription);
+            startActivity(intent);
+
+            makeToast("Marked as completed: " + completedTask);
+        } else {
+            makeToast("Invalid position: " + position);
         }
     }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,5 +178,14 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+
+    Toast t;
+
+    public void makeToast(String s) {
+        if (t != null) t.cancel();
+        t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t.show();
     }
 }

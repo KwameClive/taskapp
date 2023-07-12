@@ -1,45 +1,56 @@
 package com.example.taskapp;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button darkModeButton;
-    private Button lightModeButton;
+    private RadioGroup themeRadioGroup;
+    private Button saveButton;
+    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        darkModeButton = findViewById(R.id.darkModeButton);
-        lightModeButton = findViewById(R.id.lightModeButton);
+        themeRadioGroup = findViewById(R.id.themeRadioGroup);
+        saveButton = findViewById(R.id.saveButton);
+        cancelButton = findViewById(R.id.cancelButton);
 
-        darkModeButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDarkMode();
+                int selectedId = themeRadioGroup.getCheckedRadioButtonId();
+                if (selectedId == R.id.darkModeButton) {
+                    setDarkMode();
+                } else if (selectedId == R.id.lightModeButton) {
+                    setLightMode();
+                } else {
+                    Toast.makeText(SettingsActivity.this, "Please select a theme", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        lightModeButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setLightMode();
+                finish();
             }
         });
     }
 
     private void setDarkMode() {
         // Save the selected mode preference
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         preferences.edit().putString("selected_mode", "dark").apply();
 
         // Apply dark mode
@@ -49,24 +60,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setLightMode() {
         // Save the selected mode preference
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         preferences.edit().putString("selected_mode", "light").apply();
 
         // Apply light mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         recreate();
     }
-    private void saveSettings(boolean shouldClearTasks) {
-        // Save the settings and perform any necessary operations
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.edit().putString("selected_mode", "dark").apply();
-
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("shouldClearTasks", shouldClearTasks);
-        setResult(RESULT_OK, resultIntent);
-        finish();
-    }
-
-
 }
