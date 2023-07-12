@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class CompletedTasksActivity extends AppCompatActivity {
-
     private ListView completedTasksListView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> completedTasksList;
@@ -19,7 +18,7 @@ public class CompletedTasksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_tasks);
 
-        ListView completedTasksListView = findViewById(R.id.listView_completed_tasks);
+        completedTasksListView = findViewById(R.id.listView_completed_tasks);
 
         completedTasksList = new ArrayList<>();
         completedTasksList.add("Completed Task 1");

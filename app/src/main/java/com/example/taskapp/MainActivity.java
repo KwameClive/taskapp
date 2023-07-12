@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Task list clicked");
                 String name = taskList.get(position);
                 makeToast(name);
+
             }
         });
 
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 return true; // Return true to consume the long-click event
             }
         });
+
+
+
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskList);
         taskListView.setAdapter(adapter);
@@ -85,14 +89,25 @@ public class MainActivity extends AppCompatActivity {
                 markTaskAsCompleted();
             }
         });
+
+        Button viewTaskDetailsButton = findViewById(R.id.viewTaskDetailsButton);
+        viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the position of the clicked item
+                int position = taskListView.getPositionForView(v);
+                openTaskDetailsScreen(position);
+            }
+        });
+
+
     }
 
     private void openTaskDetailsScreen(int position) {
-        String task = taskList.get(position);
         Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
-        intent.putExtra("task", task);
         startActivity(intent);
     }
+
 
 
     public void removeItem(int position) {
@@ -122,17 +137,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void markTaskAsCompleted() {
-        // Get the selected task
-        int position = taskListView.getCheckedItemPosition();
-        if (position != ListView.INVALID_POSITION) {
-            String completedTask = taskList.get(position);
-            // Perform any necessary operations with the completed task
-
-            // Remove the completed task from the list
-            taskList.remove(position);
-            adapter.notifyDataSetChanged();
-        }
+        Intent intent = new Intent(MainActivity.this, CompletedTasksActivity.class);
+        startActivity(intent);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
