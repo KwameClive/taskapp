@@ -16,27 +16,15 @@ public class TaskDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
 
-        int position = getIntent().getIntExtra("position", -1);
-        Task selectedTask = getTaskDetails(position);
-        
-        TextView titleTextView = findViewById(R.id.titleTextView);
-        TextView descriptionTextView = findViewById(R.id.descriptionTextView);
+        // Get the task information from the intent
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("task")) {
+            String task = intent.getStringExtra("task");
 
-
-        titleTextView.setText(selectedTask.getTitle());
-        descriptionTextView.setText(selectedTask.getDescription());
-
-        //     taskTextView.setText(task);
-
-        // // Get the task information from the intent
-        // Intent intent = getIntent();
-        // if (intent != null && intent.hasExtra("task")) {
-        //     String task = intent.getStringExtra("task");
-
-        //     // Display the task details in a TextView
-        //     TextView taskTextView = findViewById(R.id.taskTextView);
-        //     taskTextView.setText(task);
-        // }
+            // Display the task details in a TextView
+            TextView taskTextView = findViewById(R.id.taskTextView);
+            taskTextView.setText(task);
+        }
     }
 
 }
