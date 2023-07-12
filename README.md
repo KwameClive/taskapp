@@ -5,16 +5,16 @@ MyTaskApp is a simple task management application developed for Android using Ja
 ## Features
 
 - Add tasks to your task list
-- View task details
-- Mark tasks as completed
-- Settings for customizing app behavior
+- Long press to remove task
+- Double click to complete task
+- Settings for customizing app behavior.
 
 ## Usage
 
 - Add Task: Tap the "Add Task" button to add a new task to your task list.
-- View Task Details: Tap on a task in the list to view its details.
-- Mark Task as Completed: Tap the "Mark as Completed" button to mark a task as completed.
-- Settings: Tap the "Settings" button to customize app settings.
+- 
+- Mark Task as Completed: Double click a task to mark as complete.
+- Settings: Tap the "Settings" button to toggle between light and dark screen.
 
 ## Contributions
 1. Sandra Akubah Darko 10945445 - Project Manager & Programmer (screen 1 )
