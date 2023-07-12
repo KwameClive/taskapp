@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button viewTaskDetailsButton = findViewById(R.id.viewTaskDetailsButton);
         viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+           @Override
             public void onClick(View v) {
                 // Get the position of the clicked item
-             //  int position = taskListView.getPositionForView(v); ( position)
-                openTaskDetailsScreen();
+                int position = taskListView.getPositionForView(v);
+                openTaskDetailsScreen(position);
             }
         });
 
@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void openTaskDetailsScreen(int position) {
         Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
-        intent.putExtra("position", position);
         startActivity(intent);
     }
 
