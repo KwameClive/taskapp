@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Get the position of the clicked item
-                int position = taskListView.getPositionForView(v);
-                openTaskDetailsScreen(position);
+             //  int position = taskListView.getPositionForView(v); ( position)
+                openTaskDetailsScreen();
             }
         });
 
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openTaskDetailsScreen(int position) {
         Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 
