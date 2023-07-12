@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="taskTextView" type="id" />
+    <item name="completedTaskTextView" type="id" />
+    <item name="completedTaskDescriptionTextView" type="id" />
 </resources>

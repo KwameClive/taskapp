@@ -6,20 +6,21 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/completedTaskTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Completed Tasks"
+        android:text="Completed Task"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
         android:paddingBottom="16dp" />
 
-    <ListView
-        android:id="@+id/listView_completed_tasks"
+    <TextView
+        android:id="@+id/completedTaskDescriptionTextView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        android:layout_height="wrap_content"
+        android:text="Task Description"
+        android:textSize="18sp"
+        android:paddingBottom="16dp" />
 
 </LinearLayout>
