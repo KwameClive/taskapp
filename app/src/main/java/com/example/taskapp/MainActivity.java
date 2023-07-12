@@ -1,6 +1,5 @@
 package com.example.taskapp;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,11 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,16 +35,21 @@ public class MainActivity extends AppCompatActivity {
             taskList.add("Task 2");
             taskList.add("Task 3");
         }
-
         taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            private long lastClickTime = 0;
+            private static final long DOUBLE_CLICK_TIME_DELTA = 300; // Maximum duration between two clicks to be considered as a double-click
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("Task list clicked");
-                String name = taskList.get(position);
-                makeToast(name);
-
+                long clickTime = System.currentTimeMillis();
+                if (clickTime - lastClickTime <= DOUBLE_CLICK_TIME_DELTA) {
+                    // Double-click detected
+                    markTaskAsCompleted(); // Pass the position to the method
+                }
+                lastClickTime = clickTime;
             }
         });
+
 
         taskListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -137,9 +137,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void markTaskAsCompleted() {
-        Intent intent = new Intent(MainActivity.this, CompletedTasksActivity.class);
-        startActivity(intent);
+        int position = 0;
+        if (position >= 0 && position < taskList.size()) {
+            String completedTask = taskList.get(position);
+            String completedTaskDescription = "Description of completed task"; // Replace with the actual description
+
+            taskList.remove(position);
+            adapter.notifyDataSetChanged();
+
+            // Add the completed task to the completed tasks list
+            // Code for adding the task to the completed tasks list goes here
+
+            // Open the "Marked as Completed" screen and pass the task information
+            Intent intent = new Intent(MainActivity.this, CompletedTasksActivity.class);
+            intent.putExtra("completedTask", completedTask);
+            intent.putExtra("completedTaskDescription", completedTaskDescription);
+            startActivity(intent);
+
+            makeToast("Marked as completed: " + completedTask);
+        } else {
+            makeToast("Invalid position: " + position);
+        }
     }
+
+
 
 
     @Override
