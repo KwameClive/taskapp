@@ -5,27 +5,27 @@ MyTaskApp is a simple task management application developed for Android using Ja
 ## Features
 
 - Add tasks to your task list
-- View task details
-- Mark tasks as completed
-- Settings for customizing app behavior
+- Long press to remove task
+- Double click to complete task
+- Settings for customizing app behavior.
 
 ## Usage
 
 - Add Task: Tap the "Add Task" button to add a new task to your task list.
-- View Task Details: Tap on a task in the list to view its details.
-- Mark Task as Completed: Tap the "Mark as Completed" button to mark a task as completed.
-- Settings: Tap the "Settings" button to customize app settings.
+- Mark Task as Completed: Double click a task to mark as complete.
+- Settings: Tap the "Settings" button to toggle between light and dark screen.
+- Settings: The choice of dark or light mode must be saved after selecting for the effect to take place
 
 ## Contributions
-1. Sandra Akubah Darko 10945445 - Project Manager & Programmer (screen 1 )
-2. Ivy Owusu 10985154 -  Programmer (screen 1 )
-3. Abigail Edem Adjo Hayibor 10976187 -  Programmer  (screen 2 )
-4. Nana Kojo Addo Baffour 10964351 - Programmer  (screen 2)
-5. Alvin Kwame Achaempong Bernasko  10966395 - Programmer  (screen 3 )
-6. Dennis Kobla Agbanyo 10975201 - Programmer  (screen 3)
-7. David Essel Agyekum 10954098- Programmer  (screen 4 )
-8. Zowonu Elikplim Kwame 10964521 - Programmer  (screen 4 )
-9. Maxwell Awoonor-Williams 10984969 - Programmer  (screen 5)
-10. Augustine Kpakpo Brown 10973795 - Programmer  (screen 5 )
+1. Sandra Akubah Darko 10945445 - Project Manager & Programmer
+2. Ivy Owusu 10985154 -  Programmer 
+3. Abigail Edem Adjo Hayibor 10976187 -  Programmer
+4. Nana Kojo Addo Baffour 10964351 - Programmer
+5. Alvin Kwame Achaempong Bernasko  10966395 - Programmer
+6. Dennis Kobla Agbanyo 10975201 - Programmer 
+7. David Essel Agyekum 10954098- Programmer  
+8. Zowonu Elikplim Kwame 10964521 - Programmer  
+9. Maxwell Awoonor-Williams 10984969 - Programmer  
+10. Augustine Kpakpo Brown 10973795 - Programmer  
 
 

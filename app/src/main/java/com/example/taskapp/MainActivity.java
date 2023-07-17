@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button viewTaskDetailsButton = findViewById(R.id.viewTaskDetailsButton);
         viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+           @Override
             public void onClick(View v) {
                 // Get the position of the clicked item
                 int position = taskListView.getPositionForView(v);
